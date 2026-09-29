@@ -3,32 +3,65 @@
 #include "gpio.pb.h"
 #include <furi_hal_gpio.h>
 #include <furi_hal_power.h>
-#include <furi_hal_resources.h>
 #include <power/power_service/power.h>
+
+/*
+ * UBYTE RPC GPIO pins.
+ * These remain private to rpc_gpio.c and are not exported through
+ * furi_hal_resources.h.
+ */
+static const GpioPin rpc_gpio_pb2 = {
+    .port = GPIOB,
+    .pin = LL_GPIO_PIN_2
+};
+
+static const GpioPin rpc_gpio_pb3 = {
+    .port = GPIOB,
+    .pin = LL_GPIO_PIN_3
+};
+
+static const GpioPin rpc_gpio_pa4 = {
+    .port = GPIOA,
+    .pin = LL_GPIO_PIN_4
+};
+
+static const GpioPin rpc_gpio_pa6 = {
+    .port = GPIOA,
+    .pin = LL_GPIO_PIN_6
+};
+
+static const GpioPin rpc_gpio_pa7 = {
+    .port = GPIOA,
+    .pin = LL_GPIO_PIN_7
+};
 
 static const GpioPin* rpc_pin_to_hal_pin(PB_Gpio_GpioPin rpc_pin) {
     switch(rpc_pin) {
-    case PB_Gpio_GpioPin_PC0:
-        return &gpio_ext_pc0;
-    case PB_Gpio_GpioPin_PC1:
-        return &gpio_ext_pc1;
-    case PB_Gpio_GpioPin_PC3:
-        return &gpio_ext_pc3;
     case PB_Gpio_GpioPin_PB2:
-        return &gpio_ext_pb2;
+        return &rpc_gpio_pb2;
     case PB_Gpio_GpioPin_PB3:
-        return &gpio_ext_pb3;
+        return &rpc_gpio_pb3;
     case PB_Gpio_GpioPin_PA4:
-        return &gpio_ext_pa4;
+        return &rpc_gpio_pa4;
     case PB_Gpio_GpioPin_PA6:
-        return &gpio_ext_pa6;
+        return &rpc_gpio_pa6;
     case PB_Gpio_GpioPin_PA7:
-        return &gpio_ext_pa7;
+        return &rpc_gpio_pa7;
+
+    /*
+     * These protobuf GPIOs exist in the generic Flipper RPC interface,
+     * but GPIOC0/C1/C3 are not bonded to the UBYTE expansion headers.
+     * Keep the enum exhaustive while preserving the existing unreachable
+     * behavior for unsupported pins.
+     */
+    case PB_Gpio_GpioPin_PC0:
+    case PB_Gpio_GpioPin_PC1:
+    case PB_Gpio_GpioPin_PC3:
+        __builtin_unreachable();
     }
 
     __builtin_unreachable();
 }
-
 static GpioMode rpc_mode_to_hal_mode(PB_Gpio_GpioPinMode rpc_mode) {
     switch(rpc_mode) {
     case PB_Gpio_GpioPinMode_OUTPUT:
