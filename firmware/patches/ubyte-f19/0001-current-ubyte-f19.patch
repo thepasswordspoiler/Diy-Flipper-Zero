@@ -998,3 +998,48 @@ index f1ad28a4..5c7a5fd0 100644
  Function,+,submenu_set_selected_item,void,"Submenu*, uint32_t"
  Function,-,system,int,const char*
 -Function,+,t5577_write,void,LFRFIDT5577*
+-Function,+,t5577_write_with_mask,void,"LFRFIDT5577*, uint8_t, _Bool, uint32_t"
+-Function,+,t5577_write_with_pass,void,"LFRFIDT5577*, uint32_t"
+ Function,-,tan,double,double
+ Function,-,tanf,float,float
+ Function,-,tanh,double,double
+@@ -3944,7 +3158,6 @@ Variable,+,gpio_usb_dp,const GpioPin,
+ Variable,+,gpio_vibro,const GpioPin,
+ Variable,+,input_pins,const InputPin[],
+ Variable,+,input_pins_count,const size_t,
+-Variable,+,lfrfid_protocols,const ProtocolBase* const[],
+ Variable,+,message_blink_set_color_blue,const NotificationMessage,
+ Variable,+,message_blink_set_color_cyan,const NotificationMessage,
+ Variable,+,message_blink_set_color_green,const NotificationMessage,
+@@ -4091,12 +3304,6 @@ Variable,+,message_red_255,const NotificationMessage,
+ Variable,+,message_sound_off,const NotificationMessage,
+ Variable,+,message_vibro_off,const NotificationMessage,
+ Variable,+,message_vibro_on,const NotificationMessage,
+-Variable,-,nfc_device_felica,const NfcDeviceBase,
+-Variable,-,nfc_device_mf_classic,const NfcDeviceBase,
+-Variable,-,nfc_device_mf_desfire,const NfcDeviceBase,
+-Variable,-,nfc_device_mf_plus,const NfcDeviceBase,
+-Variable,-,nfc_device_mf_ultralight,const NfcDeviceBase,
+-Variable,-,nfc_device_st25tb,const NfcDeviceBase,
+ Variable,+,sequence_audiovisual_alert,const NotificationSequence,
+ Variable,+,sequence_blink_blue_10,const NotificationSequence,
+ Variable,+,sequence_blink_blue_100,const NotificationSequence,
+@@ -4149,18 +3356,6 @@ Variable,+,sequence_single_vibro,const NotificationSequence,
+ Variable,+,sequence_solid_yellow,const NotificationSequence,
+ Variable,+,sequence_success,const NotificationSequence,
+ Variable,+,simple_array_config_uint8_t,const SimpleArrayConfig,
+-Variable,-,subghz_device_cc1101_int,const SubGhzDevice,
+-Variable,+,subghz_device_cc1101_preset_2fsk_dev12khz_async_regs,const uint8_t[],
+-Variable,+,subghz_device_cc1101_preset_2fsk_dev2_38khz_async_regs,const uint8_t[],
+-Variable,+,subghz_device_cc1101_preset_2fsk_dev47_6khz_async_regs,const uint8_t[],
+-Variable,+,subghz_device_cc1101_preset_gfsk_9_99kb_async_regs,const uint8_t[],
+-Variable,+,subghz_device_cc1101_preset_msk_99_97kb_async_regs,const uint8_t[],
+-Variable,+,subghz_device_cc1101_preset_ook_270khz_async_regs,const uint8_t[],
+-Variable,+,subghz_device_cc1101_preset_ook_650khz_async_regs,const uint8_t[],
+-Variable,+,subghz_protocol_raw,const SubGhzProtocol,
+-Variable,+,subghz_protocol_raw_decoder,const SubGhzProtocolDecoder,
+-Variable,+,subghz_protocol_raw_encoder,const SubGhzProtocolEncoder,
+-Variable,+,subghz_protocol_registry,const SubGhzProtocolRegistry,
+ Variable,-,suboptarg,char*,
+ Variable,+,usb_cdc_dual,FuriHalUsbInterface,
+ Variable,+,usb_cdc_single,FuriHalUsbInterface,
