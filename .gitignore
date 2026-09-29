@@ -1,0 +1,17 @@
+# Build outputs
+build/
+dist/
+.cache/
+*.log
+
+# IDE / OS
+.vscode/
+.idea/
+*.user
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+*.pem
