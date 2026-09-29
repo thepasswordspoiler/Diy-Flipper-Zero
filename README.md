@@ -1,32 +1,76 @@
 # DIY Flipper Zero — UBYTE STM32WB55 / F19
 
-Custom Flipper Zero firmware port for the UBYTE STM32WB55 evaluation platform.
+Custom Flipper Zero firmware port and hardware project for the UBYTE STM32WB55 platform.
 
-## Current status
+## Current repository state
 
-- Target: F19
+The complete upstream Flipper firmware history is present on the GitHub development branch:
+
+- Branch: `port/ubyte-stm32wb55`
+- UBYTE port commit: `29d5acd5d430a53604799d20aecde835ec40df25`
+- Upstream parent: `7f0b6e1c14431708cfde75ae1ba13df59e868041`
+- Target: F19 / 19
 - Hardware: UBYTE STM32WB55
-- Firmware: 0.1.1
-- qFlipper USB CDC: working
-- RPC / screen stream: working
-- USB DFU flashing: working
-- Factory keys: not implemented
-- SD card: not implemented
+- Firmware checkpoint: 0.1.1
+- API checkpoint: 91.0
+- Protobuf: 0.25
+
+## Verified development capabilities
+
+The development work for the current checkpoint has demonstrated:
+
+- UBYTE F19 firmware boots on the STM32WB55 board.
+- USB CDC enumerates with the VCP identity used by qFlipper.
+- qFlipper RPC communication and screen streaming work.
+- USB DFU flashing works.
+- The UBYTE target test suite has 23 tests and the known-good checkpoint passed 23/23.
+
+## Hardware scope
+
+The UBYTE design uses board-specific resources rather than pretending the hardware is an official Flipper Zero. Hardware features must be enabled only when the physical circuit exists and is electrically verified.
+
+Known board-specific resources include STM32WB55, external display/SPI resources, USB, serial resources, and UBYTE expansion-header GPIO mapping. The current firmware stage intentionally does not implement factory keys or an SD-card interface that is not physically present.
+
+## Applications
+
+The UBYTE firmware is a custom target. Official Flipper Lab application availability is therefore not automatically equivalent to official Flipper Zero firmware compatibility. The project will use explicit Target-19 application compatibility rather than spoofing official hardware metadata.
+
+## Updates and safety
+
+Never flash an official Flipper Zero image directly to the UBYTE board.
+
+Future upstream updates should follow:
+
+```
+official upstream
+      ↓
+UBYTE/F19 patch reconciliation
+      ↓
+conflict detection
+      ↓
+F19 build
+      ↓
+tests
+      ↓
+target/metadata verification
+      ↓
+validated release
+```
+
+An unresolved hardware conflict must stop the update.
+
+## Project layout
+
+```
+firmware/   UBYTE patch and provenance metadata
+targets/    F19 target implementation in the development branch
+tests/      UBYTE-specific tests in the development branch
+docs/       project and update documentation
+hardware/   reserved for verified schematics/PCB/CAD
+tools/      reserved for the UBYTE firmware manager
+```
 
 ## Upstream
 
-This project is based on the official Flipper Zero firmware project:
+Official project:
 https://github.com/flipperdevices/flipperzero-firmware
-
-Known development base:
-`7f0b6e1c14431708cfde75ae1ba13df59e868041`
-
-The repository keeps UBYTE-specific changes separate from upstream so that future firmware updates can be reconciled rather than blindly flashing official Flipper images onto the custom hardware.
-
-## Important
-
-This is a custom hardware port. Do not flash an official Flipper Zero firmware image directly to the UBYTE board.
-
-## Development
-
-See the documentation under `docs/` for build, flash, hardware, and update-manager information.
