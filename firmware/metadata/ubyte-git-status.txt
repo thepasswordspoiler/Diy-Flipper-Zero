@@ -1,0 +1,6 @@
+M applications/services/rpc/rpc_gpio.c
+M site_scons/commandline.scons
+M targets/f7/api_symbols.csv
+?? fix-ubyte-f19-rpc-sdk.ps1
+?? targets/f19/
+?? tests/
