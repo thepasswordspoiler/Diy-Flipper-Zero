@@ -22,6 +22,7 @@ const GpioPin gpio_spi_d_mosi = {.port = GPIOA, .pin = LL_GPIO_PIN_7};
 const GpioPin gpio_display_cs = {.port = GPIOA, .pin = LL_GPIO_PIN_4};
 const GpioPin gpio_display_di = {.port = GPIOB, .pin = LL_GPIO_PIN_1};
 const GpioPin gpio_display_rst_n = {.port = GPIOB, .pin = LL_GPIO_PIN_0};
+const GpioPin gpio_sdcard_cs = {.port = GPIOB, .pin = LL_GPIO_PIN_2};
 
 static const GpioPin gpio_ext_pb8 = {.port = GPIOB, .pin = LL_GPIO_PIN_8};
 static const GpioPin gpio_ext_pb9 = {.port = GPIOB, .pin = LL_GPIO_PIN_9};
