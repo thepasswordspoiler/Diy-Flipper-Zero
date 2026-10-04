@@ -1,7 +1,6 @@
 #include <furi_hal_sd.h>
 #include <furi.h>
 #include <furi_hal.h>
-#include "../fatfs/sector_cache.h"
 #define TAG "SdSpi"
 
 #ifdef FURI_HAL_SD_SPI_DEBUG
@@ -766,27 +765,6 @@ static FuriStatus sd_spi_get_card_state(void) {
     return FuriStatusError;
 }
 
-static inline bool sd_cache_get(uint32_t address, uint32_t* data) {
-    uint8_t* cached_data = sector_cache_get(address);
-    if(cached_data) {
-        memcpy(data, cached_data, SD_BLOCK_SIZE);
-        return true;
-    }
-    return false;
-}
-
-static inline void sd_cache_put(uint32_t address, uint32_t* data) {
-    sector_cache_put(address, (uint8_t*)data);
-}
-
-static inline void sd_cache_invalidate_range(uint32_t start_sector, uint32_t end_sector) {
-    sector_cache_invalidate_range(start_sector, end_sector);
-}
-
-static inline void sd_cache_invalidate_all(void) {
-    sector_cache_init();
-}
-
 static FuriStatus sd_device_read(uint32_t* buff, uint32_t sector, uint32_t count) {
     FuriStatus status = FuriStatusError;
 
@@ -827,8 +805,6 @@ static FuriStatus sd_device_write(const uint32_t* buff, uint32_t sector, uint32_
             status = sd_spi_get_card_state();
 
             if(furi_hal_cortex_timer_is_expired(timer)) {
-                sd_cache_invalidate_all();
-
                 status = FuriStatusErrorTimeout;
                 break;
             }
@@ -889,9 +865,6 @@ FuriStatus furi_hal_sd_init(bool power_reset) {
     furi_hal_sd_spi_handle = NULL;
     furi_hal_spi_release(&furi_hal_spi_bus_handle_sd_slow);
 
-    // Init sector cache
-    sector_cache_init();
-
     return status;
 }
 
@@ -911,14 +884,6 @@ FuriStatus furi_hal_sd_read_blocks(uint32_t* buff, uint32_t sector, uint32_t cou
     furi_check(buff);
 
     FuriStatus status;
-    bool single_sector = count == 1;
-
-    if(single_sector) {
-        if(sd_cache_get(sector, buff)) {
-            return FuriStatusOk;
-        }
-    }
-
     status = sd_device_read(buff, sector, count);
 
     if(status != FuriStatusOk) {
@@ -939,10 +904,6 @@ FuriStatus furi_hal_sd_read_blocks(uint32_t* buff, uint32_t sector, uint32_t cou
         }
     }
 
-    if(single_sector && status == FuriStatusOk) {
-        sd_cache_put(sector, buff);
-    }
-
     return status;
 }
 
@@ -950,8 +911,6 @@ FuriStatus furi_hal_sd_write_blocks(const uint32_t* buff, uint32_t sector, uint3
     furi_check(buff);
 
     FuriStatus status;
-
-    sd_cache_invalidate_range(sector, sector + count);
 
     status = sd_device_write(buff, sector, count);
 
