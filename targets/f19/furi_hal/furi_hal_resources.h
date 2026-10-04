@@ -62,6 +62,7 @@ extern const GpioPin gpio_spi_d_mosi;
 extern const GpioPin gpio_display_cs;
 extern const GpioPin gpio_display_di;
 extern const GpioPin gpio_display_rst_n;
+extern const GpioPin gpio_sdcard_cs;
 
 /* UBYTE expansion-header GPIO resources. */
 
